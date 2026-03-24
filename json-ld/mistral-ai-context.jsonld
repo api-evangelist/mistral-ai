@@ -1,0 +1,177 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "mistral": "https://api.mistral.ai/vocab/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "ml": "http://www.w3.org/ns/mls#",
+
+    "Model": {
+      "@id": "mistral:Model",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "owned_by": "schema:provider",
+        "created": {
+          "@id": "dcterms:created",
+          "@type": "xsd:integer"
+        },
+        "max_context_length": {
+          "@id": "mistral:maxContextLength",
+          "@type": "xsd:integer"
+        },
+        "aliases": {
+          "@id": "schema:alternateName",
+          "@container": "@set"
+        },
+        "deprecation": {
+          "@id": "mistral:deprecation",
+          "@type": "xsd:dateTime"
+        },
+        "capabilities": "mistral:capabilities",
+        "type": "mistral:modelType"
+      }
+    },
+
+    "ChatCompletion": {
+      "@id": "mistral:ChatCompletion",
+      "@context": {
+        "id": "schema:identifier",
+        "model": {
+          "@id": "mistral:usesModel",
+          "@type": "@id"
+        },
+        "created": {
+          "@id": "dcterms:created",
+          "@type": "xsd:integer"
+        },
+        "choices": {
+          "@id": "mistral:choices",
+          "@container": "@list"
+        },
+        "usage": "mistral:tokenUsage"
+      }
+    },
+
+    "ChatMessage": {
+      "@id": "mistral:ChatMessage",
+      "@context": {
+        "role": "mistral:role",
+        "content": "schema:text",
+        "tool_calls": {
+          "@id": "mistral:toolCalls",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Embedding": {
+      "@id": "mistral:Embedding",
+      "@context": {
+        "model": {
+          "@id": "mistral:usesModel",
+          "@type": "@id"
+        },
+        "embedding": {
+          "@id": "mistral:vector",
+          "@container": "@list"
+        },
+        "index": {
+          "@id": "mistral:index",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "FineTuningJob": {
+      "@id": "mistral:FineTuningJob",
+      "@context": {
+        "id": "schema:identifier",
+        "model": {
+          "@id": "mistral:baseModel",
+          "@type": "@id"
+        },
+        "status": "mistral:jobStatus",
+        "fine_tuned_model": {
+          "@id": "mistral:outputModel",
+          "@type": "@id"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:integer"
+        },
+        "modified_at": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:integer"
+        },
+        "training_files": {
+          "@id": "mistral:trainingFiles",
+          "@container": "@set"
+        },
+        "hyperparameters": "ml:hasHyperParameter"
+      }
+    },
+
+    "BatchJob": {
+      "@id": "mistral:BatchJob",
+      "@context": {
+        "id": "schema:identifier",
+        "model": {
+          "@id": "mistral:usesModel",
+          "@type": "@id"
+        },
+        "endpoint": {
+          "@id": "mistral:targetEndpoint",
+          "@type": "@id"
+        },
+        "status": "mistral:jobStatus",
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:integer"
+        },
+        "total_requests": {
+          "@id": "mistral:totalRequests",
+          "@type": "xsd:integer"
+        },
+        "completed_requests": {
+          "@id": "mistral:completedRequests",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "OcrResult": {
+      "@id": "mistral:OcrResult",
+      "@context": {
+        "pages": {
+          "@id": "mistral:pages",
+          "@container": "@list"
+        },
+        "model": {
+          "@id": "mistral:usesModel",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "Agent": {
+      "@id": "mistral:Agent",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "model": {
+          "@id": "mistral:usesModel",
+          "@type": "@id"
+        },
+        "instructions": "mistral:instructions",
+        "tools": {
+          "@id": "mistral:tools",
+          "@container": "@set"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mistral.ai/schemas/mistral-ai/batch-job.json",
+  "title": "Mistral AI Batch Job",
+  "description": "Schema for a Mistral AI batch job object, representing an asynchronous batch processing job with status tracking and result references.",
+  "type": "object",
+  "required": ["id", "model", "endpoint", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the batch job."
+    },
+    "object": {
+      "type": "string",
+      "description": "The object type."
+    },
+    "model": {
+      "type": "string",
+      "description": "The model used for batch processing."
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "The API endpoint used for each request in the batch.",
+      "enum": [
+        "/v1/chat/completions",
+        "/v1/embeddings",
+        "/v1/fim/completions",
+        "/v1/moderations",
+        "/v1/chat/moderations",
+        "/v1/ocr",
+        "/v1/classifications",
+        "/v1/conversations",
+        "/v1/audio/transcriptions"
+      ]
+    },
+    "input_files": {
+      "type": "array",
+      "description": "File IDs containing input data in JSONL format.",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the batch job.",
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCESS",
+        "FAILED",
+        "TIMEOUT_EXCEEDED",
+        "CANCELLATION_REQUESTED",
+        "CANCELLED"
+      ]
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job was created."
+    },
+    "started_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job started processing."
+    },
+    "completed_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job completed."
+    },
+    "total_requests": {
+      "type": "integer",
+      "description": "Total number of requests in the batch.",
+      "minimum": 0
+    },
+    "completed_requests": {
+      "type": "integer",
+      "description": "Number of requests that have completed processing.",
+      "minimum": 0
+    },
+    "succeeded_requests": {
+      "type": "integer",
+      "description": "Number of requests that succeeded.",
+      "minimum": 0
+    },
+    "failed_requests": {
+      "type": "integer",
+      "description": "Number of requests that failed.",
+      "minimum": 0
+    },
+    "output_file": {
+      "type": "string",
+      "format": "uuid",
+      "description": "File ID of the output file containing successful results."
+    },
+    "error_file": {
+      "type": "string",
+      "format": "uuid",
+      "description": "File ID of the error file containing failed request details."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Custom metadata associated with the batch job.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

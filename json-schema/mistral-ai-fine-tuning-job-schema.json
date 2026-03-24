@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mistral.ai/schemas/mistral-ai/fine-tuning-job.json",
+  "title": "Mistral AI Fine-Tuning Job",
+  "description": "Schema for a Mistral AI fine-tuning job, including training configuration, hyperparameters, integrations, and job status tracking.",
+  "type": "object",
+  "required": ["id", "model", "status"],
+  "$defs": {
+    "TrainingFile": {
+      "type": "object",
+      "description": "A reference to a training file with an optional weight.",
+      "required": ["file_id"],
+      "properties": {
+        "file_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The ID of the uploaded training file."
+        },
+        "weight": {
+          "type": "number",
+          "description": "The relative weight of this training file in the training mix.",
+          "minimum": 0,
+          "default": 1.0
+        }
+      }
+    },
+    "Hyperparameters": {
+      "type": "object",
+      "description": "Configurable hyperparameters for a fine-tuning job.",
+      "properties": {
+        "training_steps": {
+          "type": "integer",
+          "description": "The number of training steps to run.",
+          "minimum": 1
+        },
+        "learning_rate": {
+          "type": "number",
+          "description": "The learning rate for optimization.",
+          "minimum": 0,
+          "exclusiveMinimum": true
+        },
+        "weight_decay": {
+          "type": "number",
+          "description": "Weight decay coefficient for regularization.",
+          "minimum": 0
+        },
+        "warmup_fraction": {
+          "type": "number",
+          "description": "Fraction of total steps used for learning rate warmup.",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "Integration": {
+      "type": "object",
+      "description": "An external integration for experiment tracking during training.",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The integration provider type.",
+          "enum": ["wandb"]
+        },
+        "project": {
+          "type": "string",
+          "description": "The project name in the integration platform."
+        },
+        "name": {
+          "type": "string",
+          "description": "The run name in the integration platform."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "API key for authenticating with the integration service."
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the fine-tuning job."
+    },
+    "model": {
+      "type": "string",
+      "description": "The base model being fine-tuned."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the fine-tuning job.",
+      "enum": [
+        "QUEUED",
+        "STARTED",
+        "VALIDATING",
+        "VALIDATED",
+        "RUNNING",
+        "FAILED_VALIDATION",
+        "FAILED",
+        "SUCCESS",
+        "CANCELLED",
+        "CANCELLATION_REQUESTED"
+      ]
+    },
+    "job_type": {
+      "type": "string",
+      "description": "The type of fine-tuning job."
+    },
+    "auto_start": {
+      "type": "boolean",
+      "description": "Whether the job was configured to auto-start after validation."
+    },
+    "training_files": {
+      "type": "array",
+      "description": "Training files used for this job.",
+      "items": {
+        "$ref": "#/$defs/TrainingFile"
+      }
+    },
+    "validation_files": {
+      "type": "array",
+      "description": "Validation files used for evaluating the model during training.",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "hyperparameters": {
+      "$ref": "#/$defs/Hyperparameters"
+    },
+    "fine_tuned_model": {
+      "type": "string",
+      "description": "The ID of the resulting fine-tuned model, set after successful completion."
+    },
+    "integrations": {
+      "type": "array",
+      "description": "External integrations enabled for this job.",
+      "items": {
+        "$ref": "#/$defs/Integration"
+      }
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job was created."
+    },
+    "modified_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job was last modified."
+    },
+    "suffix": {
+      "type": "string",
+      "description": "A suffix appended to the fine-tuned model name.",
+      "maxLength": 18
+    }
+  }
+}

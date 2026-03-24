@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mistral.ai/schemas/mistral-ai/model.json",
+  "title": "Mistral AI Model",
+  "description": "Schema for a Mistral AI model object, representing a base or fine-tuned language model with its capabilities and metadata.",
+  "type": "object",
+  "required": ["id", "object"],
+  "$defs": {
+    "ModelCapabilities": {
+      "type": "object",
+      "description": "The capabilities supported by a model.",
+      "properties": {
+        "completion_chat": {
+          "type": "boolean",
+          "description": "Whether the model supports chat completions."
+        },
+        "completion_fim": {
+          "type": "boolean",
+          "description": "Whether the model supports fill-in-the-middle completions."
+        },
+        "function_calling": {
+          "type": "boolean",
+          "description": "Whether the model supports function calling."
+        },
+        "fine_tuning": {
+          "type": "boolean",
+          "description": "Whether the model can be used as a base for fine-tuning."
+        },
+        "vision": {
+          "type": "boolean",
+          "description": "Whether the model supports vision and image inputs."
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique model identifier used in API requests."
+    },
+    "object": {
+      "type": "string",
+      "description": "The object type, always model.",
+      "const": "model"
+    },
+    "created": {
+      "type": "integer",
+      "description": "Unix timestamp when the model was created."
+    },
+    "owned_by": {
+      "type": "string",
+      "description": "The organization that owns the model."
+    },
+    "name": {
+      "type": "string",
+      "description": "The human-readable display name of the model."
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the model and its intended use cases."
+    },
+    "max_context_length": {
+      "type": "integer",
+      "description": "Maximum context length in tokens supported by the model.",
+      "minimum": 1
+    },
+    "aliases": {
+      "type": "array",
+      "description": "Alternative identifiers that can be used to reference the model.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "deprecation": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The deprecation date of the model, if scheduled."
+    },
+    "capabilities": {
+      "$ref": "#/$defs/ModelCapabilities"
+    },
+    "type": {
+      "type": "string",
+      "description": "Whether this is a base model or a fine-tuned model.",
+      "enum": ["base", "fine-tuned"]
+    }
+  }
+}

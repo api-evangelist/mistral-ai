@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mistral.ai/schemas/mistral-ai/ocr-response.json",
+  "title": "Mistral AI OCR Response",
+  "description": "Schema for a Mistral AI OCR response, containing structured page-by-page text extraction results from documents and images.",
+  "type": "object",
+  "required": ["pages"],
+  "$defs": {
+    "OcrPage": {
+      "type": "object",
+      "description": "A single page of OCR results with extracted markdown content.",
+      "required": ["index", "markdown"],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "description": "The zero-based page index in the document.",
+          "minimum": 0
+        },
+        "markdown": {
+          "type": "string",
+          "description": "Extracted content in markdown format preserving headers, tables, and equations."
+        },
+        "images": {
+          "type": "array",
+          "description": "Extracted images from the page when include_image_base64 was enabled.",
+          "items": {
+            "$ref": "#/$defs/ExtractedImage"
+          }
+        },
+        "dimensions": {
+          "$ref": "#/$defs/PageDimensions"
+        }
+      }
+    },
+    "ExtractedImage": {
+      "type": "object",
+      "description": "An image extracted from a document page.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the extracted image."
+        },
+        "base64": {
+          "type": "string",
+          "description": "Base64-encoded image data."
+        },
+        "content_type": {
+          "type": "string",
+          "description": "MIME type of the image.",
+          "pattern": "^image/[a-z]+$"
+        }
+      }
+    },
+    "PageDimensions": {
+      "type": "object",
+      "description": "The dimensions of a document page.",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "description": "Page width in pixels.",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "description": "Page height in pixels.",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "properties": {
+    "pages": {
+      "type": "array",
+      "description": "List of pages with extracted OCR content.",
+      "items": {
+        "$ref": "#/$defs/OcrPage"
+      }
+    },
+    "model": {
+      "type": "string",
+      "description": "The model used for OCR processing."
+    },
+    "usage": {
+      "type": "object",
+      "description": "Usage statistics for the OCR request.",
+      "properties": {
+        "pages_processed": {
+          "type": "integer",
+          "description": "Number of pages processed.",
+          "minimum": 0
+        },
+        "doc_size_bytes": {
+          "type": "integer",
+          "description": "Document size in bytes.",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}
