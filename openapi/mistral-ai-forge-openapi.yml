@@ -27,9 +27,6 @@ tags:
     description: >-
       Endpoints for creating and managing training jobs including pre-training,
       supervised fine-tuning, and reinforcement learning pipelines.
-  - name: Datasets
-    description: >-
-      Endpoints for managing training datasets used in Forge training jobs.
 security:
   - bearerAuth: []
 paths:
