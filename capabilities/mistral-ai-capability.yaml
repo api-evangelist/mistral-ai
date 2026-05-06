@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Mistral AI Agents API
+  description: The Mistral AI Agents API provides a dedicated framework for building agentic applications. It complements
+    the Chat Completion API by enabling AI agents to handle complex tasks, maintain context across interactions, and coordinate
+    multiple actions. Developers can create agents with specific configurations, tools, and instructions, making it suitable
+    for enterprise-grade agentic platforms and multi-step workflow automation.
+  tags:
+  - Mistral
+  - Ai
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: mistral-ai
+    baseUri: https://api.mistral.ai/v1
+    description: Mistral AI Agents API HTTP API.
+    authentication:
+      type: bearer
+      token: '{{MISTRAL_AI_TOKEN}}'
+    resources:
+    - name: agents-completions
+      path: /agents/completions
+      operations:
+      - name: createagentcompletion
+        method: POST
+        description: Create agent completion
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: mistral-ai-rest
+    description: REST adapter for Mistral AI Agents API.
+    resources:
+    - path: /agents/completions
+      name: createagentcompletion
+      operations:
+      - method: POST
+        name: createagentcompletion
+        description: Create agent completion
+        call: mistral-ai.createagentcompletion
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: mistral-ai-mcp
+    transport: http
+    description: MCP adapter for Mistral AI Agents API for AI agent use.
+    tools:
+    - name: createagentcompletion
+      description: Create agent completion
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: mistral-ai.createagentcompletion
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    MISTRAL_AI_TOKEN: MISTRAL_AI_TOKEN
