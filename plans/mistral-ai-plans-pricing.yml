@@ -4,169 +4,244 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Mistral AI
 providerId: mistral-ai
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
-  - Agents
-  - Artificial Intelligence
-  - Batch Processing
-  - Chat
-  - Embeddings
-  - Fine-Tuning
+  - AI
   - Large Language Models
-  - OCR
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+  - Generative AI
+  - Subscription
+  - Usage-Based
+description: Mistral AI sells two parallel commercial products. Le Chat is a tiered consumer / team
+  subscription (Free, Pro $14.99/month, Team $24.99/month, Enterprise contact-sales). La Plateforme
+  exposes pay-as-you-go API access to Mistral's models (Mistral Large 3, Medium 3.x, Small 4, Ministral
+  3 series, Magistral, Codestral, Voxtral, OCR 3, Mistral Moderation 2, Devstral, etc.) priced per
+  million input / output tokens. Per-model token prices are listed on the API pricing page but were
+  not directly captured in this reconciliation pass — confirm against the live pricing tab on
+  mistral.ai/pricing before relying on numbers downstream.
+sources:
+  - https://mistral.ai/pricing
+  - https://docs.mistral.ai/getting-started/models/models_overview/
+  - https://mistral.ai/products/la-plateforme
+notes: Per-million-token API prices for individual models are documented on mistral.ai/pricing under
+  the API tab but were not captured in this reconciliation; mark each entry "see vendor pricing page"
+  until the table is fetched. Le Chat tier pricing is reconciled.
 plans:
-  - id: mistral-ai-free
-    name: Free
+  - id: mistral-ai-le-chat-free
+    name: Le Chat — Free
     type: freemium
-    description: Free entry tier for the Mistral AI API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+    description: Free consumer chat tier with limited model and feature access.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.mistral.ai/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.mistral.ai/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Mistral AI Chat Completions API
-      - name: Mistral AI Embeddings API
-      - name: Mistral AI Agents API
-      - name: Mistral AI Fine-Tuning API
-      - name: Mistral AI OCR API
-      - name: Mistral AI Models API
-      - name: Mistral AI Forge API
-      - name: Mistral AI Batch API
-  - id: mistral-ai-pro
-    name: Professional
-    type: paid
-    description: Production tier for Mistral AI. Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.mistral.ai/v1
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.mistral.ai/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
+      - label: Per-user
+        name: free_user
+        type: subscription
+        metric: seat
         limit: -1
         timeFrame: month
         geo: global
-        domains:
-          - https://api.mistral.ai/v1
-        unit: 1000
-        price: TBD
-        userMultiplied: false
+        unit: 1
+        price: '0.00'
+        userMultiplied: true
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Mistral AI Chat Completions API
-      - name: Mistral AI Embeddings API
-      - name: Mistral AI Agents API
-      - name: Mistral AI Fine-Tuning API
-      - name: Mistral AI OCR API
-      - name: Mistral AI Models API
-      - name: Mistral AI Forge API
-      - name: Mistral AI Batch API
-  - id: mistral-ai-enterprise
-    name: Enterprise
+      - name: Web chat access
+      - name: Limited model selection
+  - id: mistral-ai-le-chat-pro
+    name: Le Chat — Pro
+    type: subscription
+    description: Consumer Pro tier; $14.99/month (monthly billing). Higher usage caps and additional
+      features.
+    entries:
+      - label: Per-user monthly
+        name: pro_monthly
+        type: subscription
+        metric: seat
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '14.99'
+        userMultiplied: true
+    elements:
+      - name: Higher usage limits
+      - name: Access to advanced features
+  - id: mistral-ai-le-chat-team
+    name: Le Chat — Team
+    type: subscription
+    description: Team plan; $24.99/user/month. Multi-user collaboration, shared workspaces.
+    entries:
+      - label: Per-user monthly
+        name: team_monthly
+        type: subscription
+        metric: seat
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '24.99'
+        userMultiplied: true
+    elements:
+      - name: Team workspaces
+      - name: Higher usage caps per seat
+  - id: mistral-ai-le-chat-enterprise
+    name: Le Chat — Enterprise
     type: enterprise
-    description: Custom-negotiated tier for Mistral AI. Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
+    description: Enterprise contact-sales tier with custom security, compliance, and SLA terms.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
+      - label: Custom contract
+        name: enterprise_contract
+        type: subscription
+        metric: contract
         limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - https://api.mistral.ai/v1
+        timeFrame: year
+        geo: global
         unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://api.mistral.ai/v1
-        unit: 1
-        price: custom
+        price: contact sales
         userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Mistral AI Chat Completions API
-      - name: Mistral AI Embeddings API
-      - name: Mistral AI Agents API
-      - name: Mistral AI Fine-Tuning API
-      - name: Mistral AI OCR API
-      - name: Mistral AI Models API
-      - name: Mistral AI Forge API
-      - name: Mistral AI Batch API
-maintainers:
-  - FN: API Evangelist
-    email: info@apievangelist.com
+      - name: SSO / SCIM
+      - name: Audit logging
+      - name: Custom data retention
+  - id: mistral-ai-la-plateforme-payg
+    name: La Plateforme — Pay-As-You-Go
+    type: usage-based
+    description: Per-token API pricing across Mistral's model lineup. Each model has its own input
+      and output rate per million tokens; billed via the la Plateforme account.
+    entries:
+      - label: Mistral Large 3
+        name: mistral_large_3
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Mistral Medium 3.x
+        name: mistral_medium_3
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Mistral Small 4
+        name: mistral_small_4
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Ministral 3 (3B / 8B / 14B)
+        name: ministral_3
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Magistral Medium 1.2
+        name: magistral
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Codestral
+        name: codestral
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Codestral Embed
+        name: codestral_embed
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Voxtral TTS / Transcribe
+        name: voxtral
+        type: metered
+        metric: minute
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: OCR 3
+        name: ocr_3
+        type: metered
+        metric: page
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Mistral Moderation 2
+        name: moderation_2
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+      - label: Devstral 2
+        name: devstral_2
+        type: metered
+        metric: token
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1000000
+        price: see https://mistral.ai/pricing (API tab)
+        userMultiplied: false
+    elements:
+      - name: la Plateforme console
+      - name: API key management
+      - name: Per-model billing
+      - name: Self-hosted deployment optional
+  - id: mistral-ai-studio-enterprise
+    name: Mistral AI Studio (Enterprise)
+    type: enterprise
+    description: Production AI platform offering Agent Runtime, AI Registry, observability, and data
+      connectors. Deployment options span self-hosted, Mistral Cloud, and major cloud providers.
+    entries:
+      - label: Custom contract
+        name: studio_contract
+        type: subscription
+        metric: contract
+        limit: -1
+        timeFrame: year
+        geo: configurable
+        unit: 1
+        price: contact sales
+        userMultiplied: false
+    elements:
+      - name: Agent Runtime
+      - name: AI Registry
+      - name: Observability
+      - name: Data Connections
+      - name: Custom training and deployment services
+maintainers: []
