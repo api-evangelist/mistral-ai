@@ -227,6 +227,16 @@ common:
     url: json-schema/mistral-ai-batch-job-schema.json
   - type: JSONSchema
     url: json-schema/mistral-ai-ocr-response-schema.json
+  - type: Integrations
+    url: https://mistral.ai/partners
+integrations:
+  - name: Mistral AI
+  - name: Mistral AI Logo White
+  - name: icon-computer-black
+  - name: icon-copy-black
+  - name: LeChat - Mistral
+  - name: App Store Mistral AI
+  - name: Google Play Mistral AI
 maintainers:
   - FN: API Evangelist
     email: info@apievangelist.com
