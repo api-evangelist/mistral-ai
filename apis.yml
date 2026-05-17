@@ -215,7 +215,7 @@ common:
     url: https://mistral.ai/news/
   - type: Login
     url: https://console.mistral.ai/
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/mistral-ai-context.jsonld
   - type: JSONSchema
     url: json-schema/mistral-ai-chat-completion-schema.json
