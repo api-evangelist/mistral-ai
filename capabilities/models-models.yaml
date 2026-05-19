@@ -1,0 +1,169 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Mistral AI Models API — Models
+  description: 'Mistral AI Models API — Models. 4 operations. Lead operation: Update fine-tuned model. Self-contained Naftiko
+    capability covering one Mistral Ai business surface.'
+  tags:
+  - Mistral Ai
+  - Models
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    MISTRAL_AI_API_KEY: MISTRAL_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: models-models
+    baseUri: https://api.mistral.ai/v1
+    description: Mistral AI Models API — Models business capability. Self-contained, no shared references.
+    resources:
+    - name: fine_tuning-models-model_id
+      path: /fine_tuning/models/{model_id}
+      operations:
+      - name: updatefinetunedmodel
+        method: PATCH
+        description: Update fine-tuned model
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: models
+      path: /models
+      operations:
+      - name: listmodels
+        method: GET
+        description: List models
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: models-model_id
+      path: /models/{model_id}
+      operations:
+      - name: getmodel
+        method: GET
+        description: Retrieve model
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletemodel
+        method: DELETE
+        description: Delete model
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.MISTRAL_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: models-models-rest
+    port: 8080
+    description: REST adapter for Mistral AI Models API — Models. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/fine-tuning/models/{model-id}
+      name: fine-tuning-models-model-id
+      description: REST surface for fine_tuning-models-model_id.
+      operations:
+      - method: PATCH
+        name: updatefinetunedmodel
+        description: Update fine-tuned model
+        call: models-models.updatefinetunedmodel
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/models
+      name: models
+      description: REST surface for models.
+      operations:
+      - method: GET
+        name: listmodels
+        description: List models
+        call: models-models.listmodels
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/models/{model-id}
+      name: models-model-id
+      description: REST surface for models-model_id.
+      operations:
+      - method: GET
+        name: getmodel
+        description: Retrieve model
+        call: models-models.getmodel
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletemodel
+        description: Delete model
+        call: models-models.deletemodel
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: models-models-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Mistral AI Models API — Models. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: update-fine-tuned-model
+      description: Update fine-tuned model
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: models-models.updatefinetunedmodel
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-models
+      description: List models
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: models-models.listmodels
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-model
+      description: Retrieve model
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: models-models.getmodel
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-model
+      description: Delete model
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: models-models.deletemodel
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,169 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Mistral AI Batch API — Batch Jobs
+  description: 'Mistral AI Batch API — Batch Jobs. 4 operations. Lead operation: Create batch job. Self-contained Naftiko
+    capability covering one Mistral Ai business surface.'
+  tags:
+  - Mistral Ai
+  - Batch Jobs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    MISTRAL_AI_API_KEY: MISTRAL_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: batch-batch-jobs
+    baseUri: https://api.mistral.ai/v1
+    description: Mistral AI Batch API — Batch Jobs business capability. Self-contained, no shared references.
+    resources:
+    - name: batch-jobs
+      path: /batch/jobs
+      operations:
+      - name: createbatchjob
+        method: POST
+        description: Create batch job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: listbatchjobs
+        method: GET
+        description: List batch jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: batch-jobs-job_id
+      path: /batch/jobs/{job_id}
+      operations:
+      - name: getbatchjob
+        method: GET
+        description: Get batch job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: batch-jobs-job_id-cancel
+      path: /batch/jobs/{job_id}/cancel
+      operations:
+      - name: cancelbatchjob
+        method: POST
+        description: Cancel batch job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.MISTRAL_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: batch-batch-jobs-rest
+    port: 8080
+    description: REST adapter for Mistral AI Batch API — Batch Jobs. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/batch/jobs
+      name: batch-jobs
+      description: REST surface for batch-jobs.
+      operations:
+      - method: POST
+        name: createbatchjob
+        description: Create batch job
+        call: batch-batch-jobs.createbatchjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listbatchjobs
+        description: List batch jobs
+        call: batch-batch-jobs.listbatchjobs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/batch/jobs/{job-id}
+      name: batch-jobs-job-id
+      description: REST surface for batch-jobs-job_id.
+      operations:
+      - method: GET
+        name: getbatchjob
+        description: Get batch job
+        call: batch-batch-jobs.getbatchjob
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/batch/jobs/{job-id}/cancel
+      name: batch-jobs-job-id-cancel
+      description: REST surface for batch-jobs-job_id-cancel.
+      operations:
+      - method: POST
+        name: cancelbatchjob
+        description: Cancel batch job
+        call: batch-batch-jobs.cancelbatchjob
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: batch-batch-jobs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Mistral AI Batch API — Batch Jobs. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: create-batch-job
+      description: Create batch job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: batch-batch-jobs.createbatchjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-batch-jobs
+      description: List batch jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: batch-batch-jobs.listbatchjobs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-batch-job
+      description: Get batch job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: batch-batch-jobs.getbatchjob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-batch-job
+      description: Cancel batch job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: batch-batch-jobs.cancelbatchjob
+      outputParameters:
+      - type: object
+        mapping: $.

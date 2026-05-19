@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Mistral AI Agents API — Agents
+  description: 'Mistral AI Agents API — Agents. 1 operations. Lead operation: Create agent completion. Self-contained Naftiko
+    capability covering one Mistral Ai business surface.'
+  tags:
+  - Mistral Ai
+  - Agents
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    MISTRAL_AI_API_KEY: MISTRAL_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: agents-agents
+    baseUri: https://api.mistral.ai/v1
+    description: Mistral AI Agents API — Agents business capability. Self-contained, no shared references.
+    resources:
+    - name: agents-completions
+      path: /agents/completions
+      operations:
+      - name: createagentcompletion
+        method: POST
+        description: Create agent completion
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.MISTRAL_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: agents-agents-rest
+    port: 8080
+    description: REST adapter for Mistral AI Agents API — Agents. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/agents/completions
+      name: agents-completions
+      description: REST surface for agents-completions.
+      operations:
+      - method: POST
+        name: createagentcompletion
+        description: Create agent completion
+        call: agents-agents.createagentcompletion
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: agents-agents-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Mistral AI Agents API — Agents. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: create-agent-completion
+      description: Create agent completion
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: agents-agents.createagentcompletion
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

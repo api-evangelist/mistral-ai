@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Mistral AI OCR API — OCR
+  description: 'Mistral AI OCR API — OCR. 1 operations. Lead operation: Process document with OCR. Self-contained Naftiko
+    capability covering one Mistral Ai business surface.'
+  tags:
+  - Mistral Ai
+  - OCR
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    MISTRAL_AI_API_KEY: MISTRAL_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ocr-ocr
+    baseUri: https://api.mistral.ai/v1
+    description: Mistral AI OCR API — OCR business capability. Self-contained, no shared references.
+    resources:
+    - name: ocr
+      path: /ocr
+      operations:
+      - name: processocr
+        method: POST
+        description: Process document with OCR
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.MISTRAL_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: ocr-ocr-rest
+    port: 8080
+    description: REST adapter for Mistral AI OCR API — OCR. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/ocr
+      name: ocr
+      description: REST surface for ocr.
+      operations:
+      - method: POST
+        name: processocr
+        description: Process document with OCR
+        call: ocr-ocr.processocr
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ocr-ocr-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Mistral AI OCR API — OCR. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: process-document-ocr
+      description: Process document with OCR
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: ocr-ocr.processocr
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

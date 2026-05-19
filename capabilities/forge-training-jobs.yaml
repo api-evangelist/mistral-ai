@@ -1,0 +1,204 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Mistral AI Forge API — Training Jobs
+  description: 'Mistral AI Forge API — Training Jobs. 4 operations. Lead operation: Create training job. Self-contained Naftiko
+    capability covering one Mistral Ai business surface.'
+  tags:
+  - Mistral Ai
+  - Training Jobs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    MISTRAL_AI_API_KEY: MISTRAL_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: forge-training-jobs
+    baseUri: https://api.mistral.ai
+    description: Mistral AI Forge API — Training Jobs business capability. Self-contained, no shared references.
+    resources:
+    - name: forge-training-jobs
+      path: /forge/training/jobs
+      operations:
+      - name: createtrainingjob
+        method: POST
+        description: Create training job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: listtrainingjobs
+        method: GET
+        description: List training jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: The page number for pagination.
+        - name: page_size
+          in: query
+          type: integer
+          description: The number of items per page.
+    - name: forge-training-jobs-job_id
+      path: /forge/training/jobs/{job_id}
+      operations:
+      - name: gettrainingjob
+        method: GET
+        description: Get training job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: job_id
+          in: path
+          type: string
+          description: The ID of the training job.
+          required: true
+    - name: forge-training-jobs-job_id-cancel
+      path: /forge/training/jobs/{job_id}/cancel
+      operations:
+      - name: canceltrainingjob
+        method: POST
+        description: Cancel training job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: job_id
+          in: path
+          type: string
+          description: The ID of the training job.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.MISTRAL_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: forge-training-jobs-rest
+    port: 8080
+    description: REST adapter for Mistral AI Forge API — Training Jobs. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/forge/training/jobs
+      name: forge-training-jobs
+      description: REST surface for forge-training-jobs.
+      operations:
+      - method: POST
+        name: createtrainingjob
+        description: Create training job
+        call: forge-training-jobs.createtrainingjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listtrainingjobs
+        description: List training jobs
+        call: forge-training-jobs.listtrainingjobs
+        with:
+          page: rest.page
+          page_size: rest.page_size
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/forge/training/jobs/{job-id}
+      name: forge-training-jobs-job-id
+      description: REST surface for forge-training-jobs-job_id.
+      operations:
+      - method: GET
+        name: gettrainingjob
+        description: Get training job
+        call: forge-training-jobs.gettrainingjob
+        with:
+          job_id: rest.job_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/forge/training/jobs/{job-id}/cancel
+      name: forge-training-jobs-job-id-cancel
+      description: REST surface for forge-training-jobs-job_id-cancel.
+      operations:
+      - method: POST
+        name: canceltrainingjob
+        description: Cancel training job
+        call: forge-training-jobs.canceltrainingjob
+        with:
+          job_id: rest.job_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: forge-training-jobs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Mistral AI Forge API — Training Jobs. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: create-training-job
+      description: Create training job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: forge-training-jobs.createtrainingjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-training-jobs
+      description: List training jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: forge-training-jobs.listtrainingjobs
+      with:
+        page: tools.page
+        page_size: tools.page_size
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-training-job
+      description: Get training job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: forge-training-jobs.gettrainingjob
+      with:
+        job_id: tools.job_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-training-job
+      description: Cancel training job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: forge-training-jobs.canceltrainingjob
+      with:
+        job_id: tools.job_id
+      outputParameters:
+      - type: object
+        mapping: $.
