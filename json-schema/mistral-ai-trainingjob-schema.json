@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TrainingJob",
+  "title": "TrainingJob",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier for the training job."
+    },
+    "job_type": {
+      "type": "string",
+      "description": "The type of training job."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the training job.",
+      "enum": [
+        "QUEUED",
+        "VALIDATING",
+        "RUNNING",
+        "SUCCESS",
+        "FAILED",
+        "CANCELLED"
+      ]
+    },
+    "model_config": {
+      "$ref": "#/components/schemas/ModelConfig"
+    },
+    "hyperparameters": {
+      "$ref": "#/components/schemas/ForgeHyperparameters"
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job was created."
+    },
+    "modified_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job was last modified."
+    },
+    "output_model": {
+      "type": "string",
+      "description": "The ID of the resulting trained model, available after success."
+    }
+  }
+}

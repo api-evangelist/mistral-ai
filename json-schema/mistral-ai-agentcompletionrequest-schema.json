@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AgentCompletionRequest",
+  "title": "AgentCompletionRequest",
+  "type": "object",
+  "required": [
+    "agent_id",
+    "messages"
+  ],
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "The ID of the agent to use. Agent IDs are created and managed through the Mistral AI platform."
+    },
+    "messages": {
+      "type": "array",
+      "description": "A list of messages comprising the conversation so far.",
+      "items": {
+        "$ref": "#/components/schemas/ChatMessage"
+      }
+    },
+    "stream": {
+      "type": "boolean",
+      "description": "Whether to stream back partial progress as server-sent events.",
+      "default": false
+    },
+    "max_tokens": {
+      "type": "integer",
+      "description": "The maximum number of tokens to generate in the completion.",
+      "minimum": 1
+    },
+    "stop": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "Stop generation if this token or one of these tokens is detected."
+    },
+    "random_seed": {
+      "type": "integer",
+      "description": "The seed to use for random sampling for deterministic results."
+    },
+    "response_format": {
+      "type": "object",
+      "description": "An object specifying the format that the model must output.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "json_object"
+          ],
+          "description": "The format type for the response."
+        }
+      }
+    },
+    "tool_choice": {
+      "type": "string",
+      "description": "Controls which tool is called by the agent.",
+      "enum": [
+        "auto",
+        "none",
+        "any",
+        "required"
+      ]
+    }
+  }
+}

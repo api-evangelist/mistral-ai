@@ -1,0 +1,106 @@
+{
+  "provider": "Mistral AI",
+  "providerId": "mistral-ai",
+  "kind": "json-structure",
+  "description": "Structural overview of the Mistral AI API surface; extracted from openapi/.",
+  "schemaCount": 7,
+  "operationCount": 5,
+  "schemas": [
+    {
+      "name": "CreateFineTuningJobRequest",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "model",
+        "training_files"
+      ]
+    },
+    {
+      "name": "TrainingFile",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "file_id"
+      ]
+    },
+    {
+      "name": "Hyperparameters",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "Integration",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "FineTuningJob",
+      "type": "object",
+      "propertyCount": 12,
+      "required": []
+    },
+    {
+      "name": "FineTuningJobList",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "Error",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/fine_tuning/jobs",
+      "operationId": "listFineTuningJobs",
+      "summary": "List fine-tuning jobs",
+      "tags": [
+        "Fine-Tuning Jobs"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/fine_tuning/jobs",
+      "operationId": "createFineTuningJob",
+      "summary": "Create fine-tuning job",
+      "tags": [
+        "Fine-Tuning Jobs"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/fine_tuning/jobs/{job_id}",
+      "operationId": "getFineTuningJob",
+      "summary": "Get fine-tuning job",
+      "tags": [
+        "Fine-Tuning Jobs"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/fine_tuning/jobs/{job_id}/cancel",
+      "operationId": "cancelFineTuningJob",
+      "summary": "Cancel fine-tuning job",
+      "tags": [
+        "Fine-Tuning Jobs"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/fine_tuning/jobs/{job_id}/start",
+      "operationId": "startFineTuningJob",
+      "summary": "Start fine-tuning job",
+      "tags": [
+        "Fine-Tuning Jobs"
+      ]
+    }
+  ]
+}

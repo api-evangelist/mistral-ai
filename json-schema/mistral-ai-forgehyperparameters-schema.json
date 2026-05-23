@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ForgeHyperparameters",
+  "title": "ForgeHyperparameters",
+  "type": "object",
+  "properties": {
+    "learning_rate": {
+      "type": "number",
+      "description": "The learning rate for training.",
+      "minimum": 0.0
+    },
+    "training_steps": {
+      "type": "integer",
+      "description": "The number of training steps.",
+      "minimum": 1
+    },
+    "batch_size": {
+      "type": "integer",
+      "description": "The batch size for training.",
+      "minimum": 1
+    },
+    "weight_decay": {
+      "type": "number",
+      "description": "Weight decay applied during training.",
+      "minimum": 0.0
+    },
+    "warmup_steps": {
+      "type": "integer",
+      "description": "Number of warmup steps.",
+      "minimum": 0
+    }
+  }
+}

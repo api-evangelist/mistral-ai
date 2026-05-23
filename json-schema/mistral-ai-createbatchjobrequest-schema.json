@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateBatchJobRequest",
+  "title": "CreateBatchJobRequest",
+  "type": "object",
+  "required": [
+    "model",
+    "endpoint"
+  ],
+  "properties": {
+    "model": {
+      "type": "string",
+      "description": "The model to use for batch processing. Only one model can be used per batch job.",
+      "example": "mistral-small-latest"
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "The API endpoint to use for each request in the batch.",
+      "enum": [
+        "/v1/chat/completions",
+        "/v1/embeddings",
+        "/v1/fim/completions",
+        "/v1/moderations",
+        "/v1/chat/moderations",
+        "/v1/ocr",
+        "/v1/classifications",
+        "/v1/conversations",
+        "/v1/audio/transcriptions"
+      ]
+    },
+    "input_files": {
+      "type": "array",
+      "description": "A list of file IDs containing batch input data in JSONL format. Use this for file-based batching.",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "requests": {
+      "type": "array",
+      "description": "A list of inline requests to be batched. Use this for inline batching as an alternative to input_files.",
+      "items": {
+        "type": "object"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional custom metadata for the batch job.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "timeout_hours": {
+      "type": "integer",
+      "description": "The maximum number of hours the batch job should run before timing out.",
+      "minimum": 1
+    }
+  }
+}

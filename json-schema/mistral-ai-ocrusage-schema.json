@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OcrUsage",
+  "title": "OcrUsage",
+  "type": "object",
+  "properties": {
+    "pages_processed": {
+      "type": "integer",
+      "description": "Number of pages processed."
+    },
+    "doc_size_bytes": {
+      "type": "integer",
+      "description": "Size of the document in bytes."
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ModelConfig",
+  "title": "ModelConfig",
+  "type": "object",
+  "properties": {
+    "architecture": {
+      "type": "string",
+      "description": "The model architecture to use.",
+      "enum": [
+        "dense",
+        "mixture_of_experts"
+      ]
+    },
+    "base_model": {
+      "type": "string",
+      "description": "The base model to start from. Required for post-training and reinforcement learning jobs."
+    },
+    "num_experts": {
+      "type": "integer",
+      "description": "Number of experts for MoE architecture.",
+      "minimum": 1
+    },
+    "active_experts": {
+      "type": "integer",
+      "description": "Number of active experts per token for MoE architecture.",
+      "minimum": 1
+    }
+  }
+}

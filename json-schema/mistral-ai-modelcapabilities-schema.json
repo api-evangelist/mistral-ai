@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ModelCapabilities",
+  "title": "ModelCapabilities",
+  "type": "object",
+  "properties": {
+    "completion_chat": {
+      "type": "boolean",
+      "description": "Whether the model supports chat completions."
+    },
+    "completion_fim": {
+      "type": "boolean",
+      "description": "Whether the model supports fill-in-the-middle completions."
+    },
+    "function_calling": {
+      "type": "boolean",
+      "description": "Whether the model supports function calling."
+    },
+    "fine_tuning": {
+      "type": "boolean",
+      "description": "Whether the model can be fine-tuned."
+    },
+    "vision": {
+      "type": "boolean",
+      "description": "Whether the model supports vision inputs."
+    }
+  }
+}

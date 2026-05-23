@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EmbeddingObject",
+  "title": "EmbeddingObject",
+  "type": "object",
+  "properties": {
+    "object": {
+      "type": "string",
+      "description": "The object type, always embedding.",
+      "enum": [
+        "embedding"
+      ]
+    },
+    "embedding": {
+      "type": "array",
+      "description": "The embedding vector as an array of floats.",
+      "items": {
+        "type": "number",
+        "format": "float"
+      }
+    },
+    "index": {
+      "type": "integer",
+      "description": "The index of the embedding in the list of embeddings."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PageDimensions",
+  "title": "PageDimensions",
+  "type": "object",
+  "properties": {
+    "width": {
+      "type": "integer",
+      "description": "Width of the page in pixels."
+    },
+    "height": {
+      "type": "integer",
+      "description": "Height of the page in pixels."
+    }
+  }
+}

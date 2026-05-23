@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FineTuningJob",
+  "title": "FineTuningJob",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier for the fine-tuning job."
+    },
+    "auto_start": {
+      "type": "boolean",
+      "description": "Whether the job was configured to auto-start."
+    },
+    "hyperparameters": {
+      "$ref": "#/components/schemas/Hyperparameters"
+    },
+    "model": {
+      "type": "string",
+      "description": "The base model being fine-tuned."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the fine-tuning job.",
+      "enum": [
+        "QUEUED",
+        "STARTED",
+        "VALIDATING",
+        "VALIDATED",
+        "RUNNING",
+        "FAILED_VALIDATION",
+        "FAILED",
+        "SUCCESS",
+        "CANCELLED",
+        "CANCELLATION_REQUESTED"
+      ]
+    },
+    "job_type": {
+      "type": "string",
+      "description": "The type of fine-tuning job."
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job was created."
+    },
+    "modified_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job was last modified."
+    },
+    "training_files": {
+      "type": "array",
+      "description": "The training files used for this job.",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "validation_files": {
+      "type": "array",
+      "description": "The validation files used for this job.",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "fine_tuned_model": {
+      "type": "string",
+      "description": "The ID of the fine-tuned model, available after successful completion."
+    },
+    "integrations": {
+      "type": "array",
+      "description": "The integrations enabled for this job.",
+      "items": {
+        "$ref": "#/components/schemas/Integration"
+      }
+    }
+  }
+}

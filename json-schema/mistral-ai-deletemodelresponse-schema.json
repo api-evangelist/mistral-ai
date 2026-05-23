@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DeleteModelResponse",
+  "title": "DeleteModelResponse",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The ID of the deleted model."
+    },
+    "object": {
+      "type": "string",
+      "description": "The object type."
+    },
+    "deleted": {
+      "type": "boolean",
+      "description": "Whether the model was successfully deleted."
+    }
+  }
+}

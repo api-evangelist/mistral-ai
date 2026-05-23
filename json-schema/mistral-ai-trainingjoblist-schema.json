@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TrainingJobList",
+  "title": "TrainingJobList",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "description": "A list of training jobs.",
+      "items": {
+        "$ref": "#/components/schemas/TrainingJob"
+      }
+    },
+    "total": {
+      "type": "integer",
+      "description": "The total number of training jobs."
+    }
+  }
+}

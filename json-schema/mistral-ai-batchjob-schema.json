@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BatchJob",
+  "title": "BatchJob",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier for the batch job."
+    },
+    "object": {
+      "type": "string",
+      "description": "The object type."
+    },
+    "model": {
+      "type": "string",
+      "description": "The model used for batch processing."
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "The API endpoint used for each request."
+    },
+    "input_files": {
+      "type": "array",
+      "description": "The input file IDs used for the batch job.",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the batch job.",
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCESS",
+        "FAILED",
+        "TIMEOUT_EXCEEDED",
+        "CANCELLATION_REQUESTED",
+        "CANCELLED"
+      ]
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job was created."
+    },
+    "started_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job started processing."
+    },
+    "completed_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the job completed."
+    },
+    "total_requests": {
+      "type": "integer",
+      "description": "Total number of requests in the batch."
+    },
+    "completed_requests": {
+      "type": "integer",
+      "description": "Number of requests that have been completed."
+    },
+    "failed_requests": {
+      "type": "integer",
+      "description": "Number of requests that failed."
+    },
+    "succeeded_requests": {
+      "type": "integer",
+      "description": "Number of requests that succeeded."
+    },
+    "output_file": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The file ID of the output file containing results."
+    },
+    "error_file": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The file ID of the error file containing failed request details."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Custom metadata associated with the batch job.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

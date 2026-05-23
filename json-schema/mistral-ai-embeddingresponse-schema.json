@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EmbeddingResponse",
+  "title": "EmbeddingResponse",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A unique identifier for the embedding request."
+    },
+    "object": {
+      "type": "string",
+      "description": "The object type, always list.",
+      "enum": [
+        "list"
+      ]
+    },
+    "data": {
+      "type": "array",
+      "description": "A list of embedding objects.",
+      "items": {
+        "$ref": "#/components/schemas/EmbeddingObject"
+      }
+    },
+    "model": {
+      "type": "string",
+      "description": "The model used to generate the embeddings."
+    },
+    "usage": {
+      "$ref": "#/components/schemas/Usage"
+    }
+  }
+}

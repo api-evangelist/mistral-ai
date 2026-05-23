@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateTrainingJobRequest",
+  "title": "CreateTrainingJobRequest",
+  "type": "object",
+  "required": [
+    "job_type",
+    "model_config"
+  ],
+  "properties": {
+    "job_type": {
+      "type": "string",
+      "description": "The type of training job to create.",
+      "enum": [
+        "pre_training",
+        "supervised_fine_tuning",
+        "dpo",
+        "odpo",
+        "reinforcement_learning"
+      ]
+    },
+    "model_config": {
+      "$ref": "#/components/schemas/ModelConfig"
+    },
+    "dataset_ids": {
+      "type": "array",
+      "description": "The IDs of datasets to use for training.",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "hyperparameters": {
+      "$ref": "#/components/schemas/ForgeHyperparameters"
+    },
+    "auto_start": {
+      "type": "boolean",
+      "description": "Whether to automatically start the training job after validation.",
+      "default": false
+    }
+  }
+}

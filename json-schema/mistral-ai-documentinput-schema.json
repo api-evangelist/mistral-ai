@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DocumentInput",
+  "title": "DocumentInput",
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of document input.",
+      "enum": [
+        "document_url",
+        "image_url",
+        "base64"
+      ]
+    },
+    "document_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the document to process. Used when type is document_url."
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the image to process. Used when type is image_url."
+    },
+    "content": {
+      "type": "string",
+      "description": "Base64-encoded content of the document. Used when type is base64."
+    }
+  }
+}

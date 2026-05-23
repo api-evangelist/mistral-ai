@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ModelList",
+  "title": "ModelList",
+  "type": "object",
+  "properties": {
+    "object": {
+      "type": "string",
+      "description": "The object type, always list.",
+      "enum": [
+        "list"
+      ]
+    },
+    "data": {
+      "type": "array",
+      "description": "A list of model objects.",
+      "items": {
+        "$ref": "#/components/schemas/Model"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ChatCompletionChoice",
+  "title": "ChatCompletionChoice",
+  "type": "object",
+  "properties": {
+    "index": {
+      "type": "integer",
+      "description": "The index of the choice in the list of choices."
+    },
+    "message": {
+      "$ref": "#/components/schemas/ChatMessage"
+    },
+    "finish_reason": {
+      "type": "string",
+      "description": "The reason the model stopped generating tokens.",
+      "enum": [
+        "stop",
+        "length",
+        "tool_calls",
+        "model_length"
+      ]
+    }
+  }
+}

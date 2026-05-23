@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Hyperparameters",
+  "title": "Hyperparameters",
+  "type": "object",
+  "properties": {
+    "training_steps": {
+      "type": "integer",
+      "description": "The number of training steps for the fine-tuning job.",
+      "minimum": 1
+    },
+    "learning_rate": {
+      "type": "number",
+      "description": "The learning rate for the fine-tuning job.",
+      "minimum": 0.0
+    },
+    "weight_decay": {
+      "type": "number",
+      "description": "Weight decay applied during training.",
+      "minimum": 0.0
+    },
+    "warmup_fraction": {
+      "type": "number",
+      "description": "The fraction of training steps to use for warmup.",
+      "minimum": 0.0,
+      "maximum": 1.0
+    }
+  }
+}
