@@ -219,6 +219,8 @@ common:
     url: json-schema/mistral-ai-ocr-response-schema.json
   - type: Integrations
     url: https://mistral.ai/partners
+  - type: LLMsTxt
+    url: https://docs.mistral.ai/llms.txt
 integrations:
   - name: Mistral AI
   - name: Mistral AI Logo White
