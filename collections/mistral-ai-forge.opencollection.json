@@ -1,0 +1,102 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Mistral AI Forge API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Training Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List training jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mistral.ai/forge/training/jobs",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number for pagination."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per page."
+              }
+            ]
+          },
+          "docs": "List all Forge training jobs for the organization. Returns a paginated list of jobs with their current status and configuration."
+        },
+        {
+          "info": {
+            "name": "Create training job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mistral.ai/forge/training/jobs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Forge training job for pre-training, post-training, or reinforcement learning. Supports Dense and Mixture-of-Experts model architectures with configurable hyperparameters and training stages."
+        },
+        {
+          "info": {
+            "name": "Get training job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mistral.ai/forge/training/jobs/:job_id",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the training job."
+              }
+            ]
+          },
+          "docs": "Retrieve information about a specific Forge training job including its status, configuration, and training metrics."
+        },
+        {
+          "info": {
+            "name": "Cancel training job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mistral.ai/forge/training/jobs/:job_id/cancel",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the training job."
+              }
+            ]
+          },
+          "docs": "Request the cancellation of a Forge training job."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

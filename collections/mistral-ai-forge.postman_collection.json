@@ -1,0 +1,828 @@
+{
+  "item": [
+    {
+      "id": "72aa6ca7-716b-47c7-ad39-ed5284ad6966",
+      "name": "Training Jobs",
+      "description": {
+        "content": "Endpoints for creating and managing training jobs including pre-training, supervised fine-tuning, and reinforcement learning pipelines.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "00106d03-f303-4841-916d-260f5c716485",
+          "name": "Create training job",
+          "request": {
+            "name": "Create training job",
+            "description": {
+              "content": "Creates a new Forge training job for pre-training, post-training, or reinforcement learning. Supports Dense and Mixture-of-Experts model architectures with configurable hyperparameters and training stages.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "forge",
+                "training",
+                "jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"job_type\": \"<string>\",\n  \"model_config\": {\n    \"architecture\": \"<string>\",\n    \"base_model\": \"<string>\",\n    \"num_experts\": \"<integer>\",\n    \"active_experts\": \"<integer>\"\n  },\n  \"dataset_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"hyperparameters\": {\n    \"learning_rate\": \"<number>\",\n    \"training_steps\": \"<integer>\",\n    \"batch_size\": \"<integer>\",\n    \"weight_decay\": \"<number>\",\n    \"warmup_steps\": \"<integer>\"\n  },\n  \"auto_start\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "85069af7-a444-4752-88c0-05e7fdee9844",
+              "name": "Successfully created training job",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_type\": \"<string>\",\n  \"model_config\": {\n    \"architecture\": \"mixture_of_experts\",\n    \"base_model\": \"string\",\n    \"num_experts\": 2885,\n    \"active_experts\": 9891\n  },\n  \"dataset_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"hyperparameters\": {\n    \"learning_rate\": 5572.751345878826,\n    \"training_steps\": 1785,\n    \"batch_size\": 9822,\n    \"weight_decay\": 5331.045605118144,\n    \"warmup_steps\": 9004\n  },\n  \"auto_start\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"665ebb7e-d886-cfdd-533a-59cb85cac08d\",\n  \"job_type\": \"string\",\n  \"status\": \"QUEUED\",\n  \"model_config\": {\n    \"architecture\": \"mixture_of_experts\",\n    \"base_model\": \"string\",\n    \"num_experts\": 6280,\n    \"active_experts\": 1375\n  },\n  \"hyperparameters\": {\n    \"learning_rate\": 9180.603090040217,\n    \"training_steps\": 9004,\n    \"batch_size\": 300,\n    \"weight_decay\": 3162.5369218722467,\n    \"warmup_steps\": 4277\n  },\n  \"created_at\": 3055,\n  \"modified_at\": 3292,\n  \"output_model\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57cc2303-36a7-425c-bfc0-86524bfb59dc",
+              "name": "Bad request due to invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_type\": \"<string>\",\n  \"model_config\": {\n    \"architecture\": \"mixture_of_experts\",\n    \"base_model\": \"string\",\n    \"num_experts\": 2885,\n    \"active_experts\": 9891\n  },\n  \"dataset_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"hyperparameters\": {\n    \"learning_rate\": 5572.751345878826,\n    \"training_steps\": 1785,\n    \"batch_size\": 9822,\n    \"weight_decay\": 5331.045605118144,\n    \"warmup_steps\": 9004\n  },\n  \"auto_start\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"code\": 5527\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d308f512-e5f5-4fe8-97f3-b5d01e45e47e",
+              "name": "Unauthorized due to missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_type\": \"<string>\",\n  \"model_config\": {\n    \"architecture\": \"mixture_of_experts\",\n    \"base_model\": \"string\",\n    \"num_experts\": 2885,\n    \"active_experts\": 9891\n  },\n  \"dataset_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"hyperparameters\": {\n    \"learning_rate\": 5572.751345878826,\n    \"training_steps\": 1785,\n    \"batch_size\": 9822,\n    \"weight_decay\": 5331.045605118144,\n    \"warmup_steps\": 9004\n  },\n  \"auto_start\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"code\": 5527\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1cfa3e2e-abea-4c8b-8d2b-070a2fe5182b",
+          "name": "List training jobs",
+          "request": {
+            "name": "List training jobs",
+            "description": {
+              "content": "List all Forge training jobs for the organization. Returns a paginated list of jobs with their current status and configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "forge",
+                "training",
+                "jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "The page number for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "The number of items per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7039408f-3f24-490b-b0d3-9b045b417a3c",
+              "name": "Successfully retrieved list of training jobs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"dc6a7d4d-28dc-a4ce-54e5-b5c06e542528\",\n      \"job_type\": \"string\",\n      \"status\": \"VALIDATING\",\n      \"model_config\": {\n        \"architecture\": \"dense\",\n        \"base_model\": \"string\",\n        \"num_experts\": 7440,\n        \"active_experts\": 3901\n      },\n      \"hyperparameters\": {\n        \"learning_rate\": 4956.516409644517,\n        \"training_steps\": 641,\n        \"batch_size\": 8923,\n        \"weight_decay\": 137.27966046612528,\n        \"warmup_steps\": 3328\n      },\n      \"created_at\": 8049,\n      \"modified_at\": 6464,\n      \"output_model\": \"string\"\n    },\n    {\n      \"id\": \"b58e9e87-144f-d29a-e8cf-3fb03c934cff\",\n      \"job_type\": \"string\",\n      \"status\": \"QUEUED\",\n      \"model_config\": {\n        \"architecture\": \"dense\",\n        \"base_model\": \"string\",\n        \"num_experts\": 2833,\n        \"active_experts\": 4937\n      },\n      \"hyperparameters\": {\n        \"learning_rate\": 4432.099241089136,\n        \"training_steps\": 793,\n        \"batch_size\": 1118,\n        \"weight_decay\": 7512.009431267424,\n        \"warmup_steps\": 7427\n      },\n      \"created_at\": 4001,\n      \"modified_at\": 2721,\n      \"output_model\": \"string\"\n    }\n  ],\n  \"total\": 1324\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c48ec93-5e17-43e0-865c-ddeea1b9f20d",
+              "name": "Unauthorized due to missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"code\": 5527\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "32097489-f519-4a36-b2d0-2aa6d27d1e79",
+          "name": "Get training job",
+          "request": {
+            "name": "Get training job",
+            "description": {
+              "content": "Retrieve information about a specific Forge training job including its status, configuration, and training metrics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "forge",
+                "training",
+                "jobs",
+                ":job_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "job_id",
+                  "description": "(Required) The ID of the training job."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f39a89b6-8225-4ec5-a3ca-ec54748d8c94",
+              "name": "Successfully retrieved training job",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "job_id",
+                      "description": "(Required) The ID of the training job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"665ebb7e-d886-cfdd-533a-59cb85cac08d\",\n  \"job_type\": \"string\",\n  \"status\": \"QUEUED\",\n  \"model_config\": {\n    \"architecture\": \"mixture_of_experts\",\n    \"base_model\": \"string\",\n    \"num_experts\": 6280,\n    \"active_experts\": 1375\n  },\n  \"hyperparameters\": {\n    \"learning_rate\": 9180.603090040217,\n    \"training_steps\": 9004,\n    \"batch_size\": 300,\n    \"weight_decay\": 3162.5369218722467,\n    \"warmup_steps\": 4277\n  },\n  \"created_at\": 3055,\n  \"modified_at\": 3292,\n  \"output_model\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d012d9e-1fef-4428-935a-89855e357e41",
+              "name": "Unauthorized due to missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "job_id",
+                      "description": "(Required) The ID of the training job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"code\": 5527\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "efbb801f-b6d7-482b-bfcf-a7c3b7bf6099",
+              "name": "Training job not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "job_id",
+                      "description": "(Required) The ID of the training job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"code\": 5527\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2538dec1-9612-4b25-ae49-8239de0abf3c",
+          "name": "Cancel training job",
+          "request": {
+            "name": "Cancel training job",
+            "description": {
+              "content": "Request the cancellation of a Forge training job.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "forge",
+                "training",
+                "jobs",
+                ":job_id",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "job_id",
+                  "description": "(Required) The ID of the training job."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "13eb8667-0452-400e-bede-f7dd3cb08a0e",
+              "name": "Successfully cancelled training job",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs",
+                    ":job_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "job_id",
+                      "description": "(Required) The ID of the training job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"665ebb7e-d886-cfdd-533a-59cb85cac08d\",\n  \"job_type\": \"string\",\n  \"status\": \"QUEUED\",\n  \"model_config\": {\n    \"architecture\": \"mixture_of_experts\",\n    \"base_model\": \"string\",\n    \"num_experts\": 6280,\n    \"active_experts\": 1375\n  },\n  \"hyperparameters\": {\n    \"learning_rate\": 9180.603090040217,\n    \"training_steps\": 9004,\n    \"batch_size\": 300,\n    \"weight_decay\": 3162.5369218722467,\n    \"warmup_steps\": 4277\n  },\n  \"created_at\": 3055,\n  \"modified_at\": 3292,\n  \"output_model\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e77a34e9-addf-4e11-99a4-4756a29f0be2",
+              "name": "Unauthorized due to missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs",
+                    ":job_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "job_id",
+                      "description": "(Required) The ID of the training job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"code\": 5527\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29ee780d-b4b8-4b0f-a963-587bd5564b79",
+              "name": "Training job not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forge",
+                    "training",
+                    "jobs",
+                    ":job_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "job_id",
+                      "description": "(Required) The ID of the training job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"code\": 5527\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.mistral.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "43c45ae1-27a4-4224-ac8c-8979628509d0",
+    "name": "Mistral AI Forge API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Mistral AI Forge is a model-training platform providing a unified API for the entire model lifecycle from pre-training to reinforcement learning. Forge enables enterprises to build frontier-grade AI models grounded in proprietary knowledge, supporting pre-training on large internal datasets, post-training through supervised fine-tuning with DPO and ODPO, and reinforcement learning pipelines for aligning models with internal policies. Forge is optimized for agentic workflows, allowing AI agents to programmatically schedule training jobs, optimize hyperparameters, and generate synthetic data.\n\nContact Support:\n Name: Mistral AI Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Mistral AI Fine-Tuning API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fine-Tuning Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List fine-tuning jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mistral.ai/v1/fine_tuning/jobs",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number for pagination."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "The number of items per page."
+              }
+            ]
+          },
+          "docs": "List fine-tuning jobs for your organization. Returns a paginated list of jobs with their current status and configuration."
+        },
+        {
+          "info": {
+            "name": "Create fine-tuning job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mistral.ai/v1/fine_tuning/jobs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a fine-tuning job which begins the process of creating a new model from a given dataset. The job runs asynchronously and its progress can be monitored via the retrieve endpoint."
+        },
+        {
+          "info": {
+            "name": "Get fine-tuning job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mistral.ai/v1/fine_tuning/jobs/:job_id",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the fine-tuning job."
+              }
+            ]
+          },
+          "docs": "Get info about a fine-tuning job including its status, configuration, training metrics, and resulting model identifier."
+        },
+        {
+          "info": {
+            "name": "Cancel fine-tuning job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mistral.ai/v1/fine_tuning/jobs/:job_id/cancel",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the fine-tuning job."
+              }
+            ]
+          },
+          "docs": "Request the cancellation of a fine-tuning job. The job will be cancelled if it has not already completed or failed."
+        },
+        {
+          "info": {
+            "name": "Start fine-tuning job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.mistral.ai/v1/fine_tuning/jobs/:job_id/start",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the fine-tuning job."
+              }
+            ]
+          },
+          "docs": "Start a fine-tuning job that was created with auto_start set to false. The job must have passed validation before it can be started."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
