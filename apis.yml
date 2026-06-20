@@ -6,7 +6,7 @@ description: Mistral AI is a French artificial intelligence company that develop
   OCR, batch processing, and agentic workflows, enabling teams to build sophisticated
   AI-powered applications.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/mistral-ai/refs/heads/main/apis.yml
 tags:
 - Agents
