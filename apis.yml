@@ -221,7 +221,7 @@ common:
   url: json-schema/mistral-ai-ocr-response-schema.json
 - type: Integrations
   url: https://mistral.ai/partners
-- type: LLMsTxt
+- type: LlmsText
   url: https://docs.mistral.ai/llms.txt
 integrations:
 - name: Mistral AI
