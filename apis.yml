@@ -189,6 +189,10 @@ apis:
   - type: OpenAPI
     url: openapi/mistral-ai-batch-openapi.yml
 common:
+- type: DomainSecurity
+  url: security/mistral-ai-domain-security.yml
+- type: Authentication
+  url: authentication/mistral-ai-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/mistralai
 - type: LinkedIn

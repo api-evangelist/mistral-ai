@@ -1,0 +1,22 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/mistral-ai-agents-openapi.yml, openapi/mistral-ai-batch-openapi.yml, openapi/mistral-ai-chat-completions-openapi.yml,
+  openapi/mistral-ai-embeddings-openapi.yml, openapi/mistral-ai-fine-tuning-openapi.yml, openapi/mistral-ai-forge-openapi.yml,
+  openapi/mistral-ai-models-openapi.yml, openapi/mistral-ai-ocr-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: API Key
+  sources:
+  - openapi/mistral-ai-agents-openapi.yml
+  - openapi/mistral-ai-batch-openapi.yml
+  - openapi/mistral-ai-chat-completions-openapi.yml
+  - openapi/mistral-ai-embeddings-openapi.yml
+  - openapi/mistral-ai-fine-tuning-openapi.yml
+  - openapi/mistral-ai-forge-openapi.yml
+  - openapi/mistral-ai-models-openapi.yml
+  - openapi/mistral-ai-ocr-openapi.yml
