@@ -189,6 +189,8 @@ apis:
   - type: OpenAPI
     url: openapi/mistral-ai-batch-openapi.yml
 common:
+- type: AgenticAccess
+  url: agentic-access/mistral-ai-agentic-access.yml
 - type: DomainSecurity
   url: security/mistral-ai-domain-security.yml
 - type: Authentication
