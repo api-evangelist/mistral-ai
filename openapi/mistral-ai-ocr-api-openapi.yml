@@ -1,0 +1,190 @@
+openapi: 3.1.0
+info:
+  title: Mistral AI Agents OCR API
+  description: The Mistral AI Agents API provides a dedicated framework for building agentic applications. It complements the Chat Completion API by enabling AI agents to handle complex tasks, maintain context across interactions, and coordinate multiple actions. Developers can create agents with specific configurations, tools, and instructions, making it suitable for enterprise-grade agentic platforms and multi-step workflow automation.
+  version: 1.0.0
+  contact:
+    name: Mistral AI Support
+    url: https://docs.mistral.ai
+  termsOfService: https://mistral.ai/terms
+servers:
+- url: https://api.mistral.ai/v1
+  description: Mistral AI Production Server
+security:
+- bearerAuth: []
+tags:
+- name: OCR
+  description: Endpoints for extracting text and structured content from documents and images using optical character recognition.
+paths:
+  /ocr:
+    post:
+      operationId: processOcr
+      summary: Process document with OCR
+      description: Extracts text and structured content from a PDF document or image using Mistral's OCR model. The API comprehends complex document elements including tables, equations, charts, and interleaved text, returning structured markdown content organized by page.
+      tags:
+      - OCR
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OcrRequest'
+      responses:
+        '200':
+          description: Successful OCR processing response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcrResponse'
+        '400':
+          description: Bad request due to invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ExtractedImage:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the extracted image.
+        base64:
+          type: string
+          description: Base64-encoded image data.
+        content_type:
+          type: string
+          description: The MIME type of the image.
+    OcrUsage:
+      type: object
+      properties:
+        pages_processed:
+          type: integer
+          description: Number of pages processed.
+        doc_size_bytes:
+          type: integer
+          description: Size of the document in bytes.
+    OcrRequest:
+      type: object
+      required:
+      - model
+      - document
+      properties:
+        model:
+          type: string
+          description: ID of the model to use for OCR processing.
+          example: mistral-ocr-latest
+        document:
+          $ref: '#/components/schemas/DocumentInput'
+        pages:
+          type: array
+          description: Specific page numbers to process. If not provided, all pages are processed.
+          items:
+            type: integer
+            minimum: 0
+        include_image_base64:
+          type: boolean
+          description: Whether to include base64-encoded images of extracted figures and charts in the response.
+          default: false
+        image_limit:
+          type: integer
+          description: Maximum number of images to extract and return.
+          minimum: 0
+        image_min_size:
+          type: integer
+          description: Minimum size in pixels for images to be included in the response.
+          minimum: 0
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        type:
+          type: string
+          description: The type of error.
+        code:
+          type: integer
+          description: The HTTP status code.
+    OcrPage:
+      type: object
+      properties:
+        index:
+          type: integer
+          description: The zero-based page index in the document.
+        markdown:
+          type: string
+          description: The extracted content in markdown format, preserving document structure including headers, tables, and equations.
+        images:
+          type: array
+          description: Extracted images from the page, if include_image_base64 was set.
+          items:
+            $ref: '#/components/schemas/ExtractedImage'
+        dimensions:
+          $ref: '#/components/schemas/PageDimensions'
+    DocumentInput:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The type of document input.
+          enum:
+          - document_url
+          - image_url
+          - base64
+        document_url:
+          type: string
+          format: uri
+          description: URL of the document to process. Used when type is document_url.
+        image_url:
+          type: string
+          format: uri
+          description: URL of the image to process. Used when type is image_url.
+        content:
+          type: string
+          description: Base64-encoded content of the document. Used when type is base64.
+    OcrResponse:
+      type: object
+      properties:
+        pages:
+          type: array
+          description: A list of pages with extracted content.
+          items:
+            $ref: '#/components/schemas/OcrPage'
+        model:
+          type: string
+          description: The model used for OCR processing.
+        usage:
+          $ref: '#/components/schemas/OcrUsage'
+    PageDimensions:
+      type: object
+      properties:
+        width:
+          type: integer
+          description: Width of the page in pixels.
+        height:
+          type: integer
+          description: Height of the page in pixels.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+externalDocs:
+  description: Mistral AI Agents Documentation
+  url: https://docs.mistral.ai/api/endpoint/agents

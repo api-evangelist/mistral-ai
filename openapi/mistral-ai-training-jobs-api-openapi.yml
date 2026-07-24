@@ -1,0 +1,293 @@
+openapi: 3.1.0
+info:
+  title: Mistral AI Agents Training Jobs API
+  description: The Mistral AI Agents API provides a dedicated framework for building agentic applications. It complements the Chat Completion API by enabling AI agents to handle complex tasks, maintain context across interactions, and coordinate multiple actions. Developers can create agents with specific configurations, tools, and instructions, making it suitable for enterprise-grade agentic platforms and multi-step workflow automation.
+  version: 1.0.0
+  contact:
+    name: Mistral AI Support
+    url: https://docs.mistral.ai
+  termsOfService: https://mistral.ai/terms
+servers:
+- url: https://api.mistral.ai/v1
+  description: Mistral AI Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Training Jobs
+  description: Endpoints for creating and managing training jobs including pre-training, supervised fine-tuning, and reinforcement learning pipelines.
+paths:
+  /forge/training/jobs:
+    post:
+      operationId: createTrainingJob
+      summary: Create training job
+      description: Creates a new Forge training job for pre-training, post-training, or reinforcement learning. Supports Dense and Mixture-of-Experts model architectures with configurable hyperparameters and training stages.
+      tags:
+      - Training Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTrainingJobRequest'
+      responses:
+        '200':
+          description: Successfully created training job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingJob'
+        '400':
+          description: Bad request due to invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      operationId: listTrainingJobs
+      summary: List training jobs
+      description: List all Forge training jobs for the organization. Returns a paginated list of jobs with their current status and configuration.
+      tags:
+      - Training Jobs
+      parameters:
+      - name: page
+        in: query
+        required: false
+        description: The page number for pagination.
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: page_size
+        in: query
+        required: false
+        description: The number of items per page.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      responses:
+        '200':
+          description: Successfully retrieved list of training jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingJobList'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /forge/training/jobs/{job_id}:
+    get:
+      operationId: getTrainingJob
+      summary: Get training job
+      description: Retrieve information about a specific Forge training job including its status, configuration, and training metrics.
+      tags:
+      - Training Jobs
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        description: The ID of the training job.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Successfully retrieved training job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingJob'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Training job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /forge/training/jobs/{job_id}/cancel:
+    post:
+      operationId: cancelTrainingJob
+      summary: Cancel training job
+      description: Request the cancellation of a Forge training job.
+      tags:
+      - Training Jobs
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        description: The ID of the training job.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Successfully cancelled training job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingJob'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Training job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TrainingJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for the training job.
+        job_type:
+          type: string
+          description: The type of training job.
+        status:
+          type: string
+          description: The current status of the training job.
+          enum:
+          - QUEUED
+          - VALIDATING
+          - RUNNING
+          - SUCCESS
+          - FAILED
+          - CANCELLED
+        model_config:
+          $ref: '#/components/schemas/ModelConfig'
+        hyperparameters:
+          $ref: '#/components/schemas/ForgeHyperparameters'
+        created_at:
+          type: integer
+          description: Unix timestamp when the job was created.
+        modified_at:
+          type: integer
+          description: Unix timestamp when the job was last modified.
+        output_model:
+          type: string
+          description: The ID of the resulting trained model, available after success.
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        type:
+          type: string
+          description: The type of error.
+        code:
+          type: integer
+          description: The HTTP status code.
+    ForgeHyperparameters:
+      type: object
+      properties:
+        learning_rate:
+          type: number
+          description: The learning rate for training.
+          minimum: 0.0
+        training_steps:
+          type: integer
+          description: The number of training steps.
+          minimum: 1
+        batch_size:
+          type: integer
+          description: The batch size for training.
+          minimum: 1
+        weight_decay:
+          type: number
+          description: Weight decay applied during training.
+          minimum: 0.0
+        warmup_steps:
+          type: integer
+          description: Number of warmup steps.
+          minimum: 0
+    CreateTrainingJobRequest:
+      type: object
+      required:
+      - job_type
+      - model_config
+      properties:
+        job_type:
+          type: string
+          description: The type of training job to create.
+          enum:
+          - pre_training
+          - supervised_fine_tuning
+          - dpo
+          - odpo
+          - reinforcement_learning
+        model_config:
+          $ref: '#/components/schemas/ModelConfig'
+        dataset_ids:
+          type: array
+          description: The IDs of datasets to use for training.
+          items:
+            type: string
+            format: uuid
+        hyperparameters:
+          $ref: '#/components/schemas/ForgeHyperparameters'
+        auto_start:
+          type: boolean
+          description: Whether to automatically start the training job after validation.
+          default: false
+    TrainingJobList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of training jobs.
+          items:
+            $ref: '#/components/schemas/TrainingJob'
+        total:
+          type: integer
+          description: The total number of training jobs.
+    ModelConfig:
+      type: object
+      properties:
+        architecture:
+          type: string
+          description: The model architecture to use.
+          enum:
+          - dense
+          - mixture_of_experts
+        base_model:
+          type: string
+          description: The base model to start from. Required for post-training and reinforcement learning jobs.
+        num_experts:
+          type: integer
+          description: Number of experts for MoE architecture.
+          minimum: 1
+        active_experts:
+          type: integer
+          description: Number of active experts per token for MoE architecture.
+          minimum: 1
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+externalDocs:
+  description: Mistral AI Agents Documentation
+  url: https://docs.mistral.ai/api/endpoint/agents

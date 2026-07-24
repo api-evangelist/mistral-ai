@@ -1,41 +1,28 @@
 openapi: 3.1.0
 info:
-  title: Mistral AI Models API
-  description: >-
-    The Mistral AI Models API provides endpoints for listing and retrieving
-    information about available models on the Mistral platform. Developers
-    can query which models are accessible, inspect model capabilities and
-    metadata, and manage fine-tuned model deployments. This API serves as
-    the foundation for model discovery and lifecycle management within the
-    Mistral ecosystem.
-  version: '1.0.0'
+  title: Mistral AI Agents Models API
+  description: The Mistral AI Agents API provides a dedicated framework for building agentic applications. It complements the Chat Completion API by enabling AI agents to handle complex tasks, maintain context across interactions, and coordinate multiple actions. Developers can create agents with specific configurations, tools, and instructions, making it suitable for enterprise-grade agentic platforms and multi-step workflow automation.
+  version: 1.0.0
   contact:
     name: Mistral AI Support
     url: https://docs.mistral.ai
   termsOfService: https://mistral.ai/terms
-externalDocs:
-  description: Mistral AI Models Documentation
-  url: https://docs.mistral.ai/api/endpoint/models
 servers:
-  - url: https://api.mistral.ai/v1
-    description: Mistral AI Production Server
-tags:
-  - name: Models
-    description: >-
-      Endpoints for listing, retrieving, updating, and deleting models
-      available on the Mistral AI platform.
+- url: https://api.mistral.ai/v1
+  description: Mistral AI Production Server
 security:
-  - bearerAuth: []
+- bearerAuth: []
+tags:
+- name: Models
+  description: Endpoints for listing, retrieving, updating, and deleting models available on the Mistral AI platform.
 paths:
   /models:
     get:
       operationId: listModels
       summary: List models
-      description: >-
-        List all models available to the user, including base models and
-        fine-tuned models. Returns model IDs, capabilities, and metadata.
+      description: List all models available to the user, including base models and fine-tuned models. Returns model IDs, capabilities, and metadata.
       tags:
-        - Models
+      - Models
       responses:
         '200':
           description: Successfully retrieved list of models
@@ -53,13 +40,11 @@ paths:
     get:
       operationId: getModel
       summary: Retrieve model
-      description: >-
-        Retrieves a model instance, providing information about the model
-        including its ID, creation date, owner, and capabilities.
+      description: Retrieves a model instance, providing information about the model including its ID, creation date, owner, and capabilities.
       tags:
-        - Models
+      - Models
       parameters:
-        - $ref: '#/components/parameters/ModelIdParam'
+      - $ref: '#/components/parameters/ModelIdParam'
       responses:
         '200':
           description: Successfully retrieved model
@@ -82,13 +67,11 @@ paths:
     delete:
       operationId: deleteModel
       summary: Delete model
-      description: >-
-        Delete a fine-tuned model. Only models owned by the user's
-        organization can be deleted. Base models cannot be deleted.
+      description: Delete a fine-tuned model. Only models owned by the user's organization can be deleted. Base models cannot be deleted.
       tags:
-        - Models
+      - Models
       parameters:
-        - $ref: '#/components/parameters/ModelIdParam'
+      - $ref: '#/components/parameters/ModelIdParam'
       responses:
         '200':
           description: Successfully deleted model
@@ -112,12 +95,11 @@ paths:
     patch:
       operationId: updateFineTunedModel
       summary: Update fine-tuned model
-      description: >-
-        Update a fine-tuned model's metadata such as its name or description.
+      description: Update a fine-tuned model's metadata such as its name or description.
       tags:
-        - Models
+      - Models
       parameters:
-        - $ref: '#/components/parameters/ModelIdParam'
+      - $ref: '#/components/parameters/ModelIdParam'
       requestBody:
         required: true
         content:
@@ -144,150 +126,127 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: API Key
-  parameters:
-    ModelIdParam:
-      name: model_id
-      in: path
-      required: true
-      description: >-
-        The ID of the model.
-      schema:
-        type: string
   schemas:
-    ModelList:
-      type: object
-      properties:
-        object:
-          type: string
-          description: >-
-            The object type, always list.
-          enum:
-            - list
-        data:
-          type: array
-          description: >-
-            A list of model objects.
-          items:
-            $ref: '#/components/schemas/Model'
-    Model:
-      type: object
-      properties:
-        id:
-          type: string
-          description: >-
-            The model identifier.
-        object:
-          type: string
-          description: >-
-            The object type, always model.
-          enum:
-            - model
-        created:
-          type: integer
-          description: >-
-            The Unix timestamp when the model was created.
-        owned_by:
-          type: string
-          description: >-
-            The organization that owns the model.
-        name:
-          type: string
-          description: >-
-            The human-readable name of the model.
-        description:
-          type: string
-          description: >-
-            A description of the model.
-        max_context_length:
-          type: integer
-          description: >-
-            The maximum context length supported by the model.
-        aliases:
-          type: array
-          description: >-
-            A list of aliases for the model.
-          items:
-            type: string
-        deprecation:
-          type: string
-          format: date-time
-          description: >-
-            The deprecation date of the model, if applicable.
-        capabilities:
-          $ref: '#/components/schemas/ModelCapabilities'
-        type:
-          type: string
-          description: >-
-            The type of model.
-          enum:
-            - base
-            - fine-tuned
-    ModelCapabilities:
-      type: object
-      properties:
-        completion_chat:
-          type: boolean
-          description: >-
-            Whether the model supports chat completions.
-        completion_fim:
-          type: boolean
-          description: >-
-            Whether the model supports fill-in-the-middle completions.
-        function_calling:
-          type: boolean
-          description: >-
-            Whether the model supports function calling.
-        fine_tuning:
-          type: boolean
-          description: >-
-            Whether the model can be fine-tuned.
-        vision:
-          type: boolean
-          description: >-
-            Whether the model supports vision inputs.
     UpdateModelRequest:
       type: object
       properties:
         name:
           type: string
-          description: >-
-            The new name for the model.
+          description: The new name for the model.
         description:
           type: string
-          description: >-
-            The new description for the model.
-    DeleteModelResponse:
+          description: The new description for the model.
+    ModelList:
       type: object
       properties:
-        id:
-          type: string
-          description: >-
-            The ID of the deleted model.
         object:
           type: string
-          description: >-
-            The object type.
-        deleted:
-          type: boolean
-          description: >-
-            Whether the model was successfully deleted.
+          description: The object type, always list.
+          enum:
+          - list
+        data:
+          type: array
+          description: A list of model objects.
+          items:
+            $ref: '#/components/schemas/Model'
     Error:
       type: object
       properties:
         message:
           type: string
-          description: >-
-            A human-readable error message.
+          description: A human-readable error message.
         type:
           type: string
-          description: >-
-            The type of error.
+          description: The type of error.
         code:
           type: integer
-          description: >-
-            The HTTP status code.
+          description: The HTTP status code.
+    Model:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The model identifier.
+        object:
+          type: string
+          description: The object type, always model.
+          enum:
+          - model
+        created:
+          type: integer
+          description: The Unix timestamp when the model was created.
+        owned_by:
+          type: string
+          description: The organization that owns the model.
+        name:
+          type: string
+          description: The human-readable name of the model.
+        description:
+          type: string
+          description: A description of the model.
+        max_context_length:
+          type: integer
+          description: The maximum context length supported by the model.
+        aliases:
+          type: array
+          description: A list of aliases for the model.
+          items:
+            type: string
+        deprecation:
+          type: string
+          format: date-time
+          description: The deprecation date of the model, if applicable.
+        capabilities:
+          $ref: '#/components/schemas/ModelCapabilities'
+        type:
+          type: string
+          description: The type of model.
+          enum:
+          - base
+          - fine-tuned
+    ModelCapabilities:
+      type: object
+      properties:
+        completion_chat:
+          type: boolean
+          description: Whether the model supports chat completions.
+        completion_fim:
+          type: boolean
+          description: Whether the model supports fill-in-the-middle completions.
+        function_calling:
+          type: boolean
+          description: Whether the model supports function calling.
+        fine_tuning:
+          type: boolean
+          description: Whether the model can be fine-tuned.
+        vision:
+          type: boolean
+          description: Whether the model supports vision inputs.
+    DeleteModelResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the deleted model.
+        object:
+          type: string
+          description: The object type.
+        deleted:
+          type: boolean
+          description: Whether the model was successfully deleted.
+  parameters:
+    ModelIdParam:
+      name: model_id
+      in: path
+      required: true
+      description: The ID of the model.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+externalDocs:
+  description: Mistral AI Agents Documentation
+  url: https://docs.mistral.ai/api/endpoint/agents

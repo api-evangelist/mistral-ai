@@ -1,0 +1,299 @@
+openapi: 3.1.0
+info:
+  title: Mistral AI Agents Batch Jobs API
+  description: The Mistral AI Agents API provides a dedicated framework for building agentic applications. It complements the Chat Completion API by enabling AI agents to handle complex tasks, maintain context across interactions, and coordinate multiple actions. Developers can create agents with specific configurations, tools, and instructions, making it suitable for enterprise-grade agentic platforms and multi-step workflow automation.
+  version: 1.0.0
+  contact:
+    name: Mistral AI Support
+    url: https://docs.mistral.ai
+  termsOfService: https://mistral.ai/terms
+servers:
+- url: https://api.mistral.ai/v1
+  description: Mistral AI Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Batch Jobs
+  description: Endpoints for creating, listing, retrieving, and cancelling batch processing jobs for asynchronous request handling.
+paths:
+  /batch/jobs:
+    post:
+      operationId: createBatchJob
+      summary: Create batch job
+      description: Creates a new batch job for asynchronous processing. The job will be queued and processed in the background. Supports inline requests or file-based batching for chat completions, embeddings, FIM completions, moderations, OCR, classifications, and audio transcriptions.
+      tags:
+      - Batch Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBatchJobRequest'
+      responses:
+        '200':
+          description: Successfully created batch job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJob'
+        '400':
+          description: Bad request due to invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      operationId: listBatchJobs
+      summary: List batch jobs
+      description: List all batch jobs for the organization. Returns a paginated list of jobs with their current status and progress information.
+      tags:
+      - Batch Jobs
+      parameters:
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/PageSizeParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of batch jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobList'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /batch/jobs/{job_id}:
+    get:
+      operationId: getBatchJob
+      summary: Get batch job
+      description: Retrieve information about a specific batch job including its status, progress, and output file location.
+      tags:
+      - Batch Jobs
+      parameters:
+      - $ref: '#/components/parameters/JobIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved batch job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJob'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Batch job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /batch/jobs/{job_id}/cancel:
+    post:
+      operationId: cancelBatchJob
+      summary: Cancel batch job
+      description: Request the cancellation of a batch job. The job will be cancelled if it has not already completed.
+      tags:
+      - Batch Jobs
+      parameters:
+      - $ref: '#/components/parameters/JobIdParam'
+      responses:
+        '200':
+          description: Successfully cancelled batch job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJob'
+        '401':
+          description: Unauthorized due to missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Batch job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    CreateBatchJobRequest:
+      type: object
+      required:
+      - model
+      - endpoint
+      properties:
+        model:
+          type: string
+          description: The model to use for batch processing. Only one model can be used per batch job.
+          example: mistral-small-latest
+        endpoint:
+          type: string
+          description: The API endpoint to use for each request in the batch.
+          enum:
+          - /v1/chat/completions
+          - /v1/embeddings
+          - /v1/fim/completions
+          - /v1/moderations
+          - /v1/chat/moderations
+          - /v1/ocr
+          - /v1/classifications
+          - /v1/conversations
+          - /v1/audio/transcriptions
+        input_files:
+          type: array
+          description: A list of file IDs containing batch input data in JSONL format. Use this for file-based batching.
+          items:
+            type: string
+            format: uuid
+        requests:
+          type: array
+          description: A list of inline requests to be batched. Use this for inline batching as an alternative to input_files.
+          items:
+            type: object
+        metadata:
+          type: object
+          description: Optional custom metadata for the batch job.
+          additionalProperties:
+            type: string
+        timeout_hours:
+          type: integer
+          description: The maximum number of hours the batch job should run before timing out.
+          minimum: 1
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A human-readable error message.
+        type:
+          type: string
+          description: The type of error.
+        code:
+          type: integer
+          description: The HTTP status code.
+    BatchJobList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of batch jobs.
+          items:
+            $ref: '#/components/schemas/BatchJob'
+        total:
+          type: integer
+          description: The total number of batch jobs.
+    BatchJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for the batch job.
+        object:
+          type: string
+          description: The object type.
+        model:
+          type: string
+          description: The model used for batch processing.
+        endpoint:
+          type: string
+          description: The API endpoint used for each request.
+        input_files:
+          type: array
+          description: The input file IDs used for the batch job.
+          items:
+            type: string
+            format: uuid
+        status:
+          type: string
+          description: The current status of the batch job.
+          enum:
+          - QUEUED
+          - RUNNING
+          - SUCCESS
+          - FAILED
+          - TIMEOUT_EXCEEDED
+          - CANCELLATION_REQUESTED
+          - CANCELLED
+        created_at:
+          type: integer
+          description: Unix timestamp when the job was created.
+        started_at:
+          type: integer
+          description: Unix timestamp when the job started processing.
+        completed_at:
+          type: integer
+          description: Unix timestamp when the job completed.
+        total_requests:
+          type: integer
+          description: Total number of requests in the batch.
+        completed_requests:
+          type: integer
+          description: Number of requests that have been completed.
+        failed_requests:
+          type: integer
+          description: Number of requests that failed.
+        succeeded_requests:
+          type: integer
+          description: Number of requests that succeeded.
+        output_file:
+          type: string
+          format: uuid
+          description: The file ID of the output file containing results.
+        error_file:
+          type: string
+          format: uuid
+          description: The file ID of the error file containing failed request details.
+        metadata:
+          type: object
+          description: Custom metadata associated with the batch job.
+          additionalProperties:
+            type: string
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      required: false
+      description: The page number for pagination.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    JobIdParam:
+      name: job_id
+      in: path
+      required: true
+      description: The ID of the batch job.
+      schema:
+        type: string
+        format: uuid
+    PageSizeParam:
+      name: page_size
+      in: query
+      required: false
+      description: The number of items per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+externalDocs:
+  description: Mistral AI Agents Documentation
+  url: https://docs.mistral.ai/api/endpoint/agents
